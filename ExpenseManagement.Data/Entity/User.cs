@@ -9,5 +9,6 @@ namespace ExpenseManagement.Data.Entity
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public ICollection<Expense> Expenses { get; set; }
     }
 }

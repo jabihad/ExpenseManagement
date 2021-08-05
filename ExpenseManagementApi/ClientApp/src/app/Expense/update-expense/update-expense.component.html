@@ -1,0 +1,22 @@
+<h1>Update Expense</h1>
+
+<form [formGroup]="editExpense" (ngSubmit)="updateExpense()">
+
+    <div class="form-group">
+        <label>Item Name</label>
+        <input type="text" class="form-control" placeholder="Enter Item Name" formControlName="itemName"> 
+    </div>
+    
+    <div class="form-group">
+        <label>Expense Amount</label>
+        <input type="text" class="form-control" placeholder="Enter Expense Amount" formControlName="amount"> 
+    </div>
+
+    <div class="form-group">
+        <label>Expense Category</label>
+        <select formControlName="categoryId" class="form-control">
+            <option [value]="item.id" *ngFor="let item of categoryList">{{item.name}}</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Update</button>
+</form>

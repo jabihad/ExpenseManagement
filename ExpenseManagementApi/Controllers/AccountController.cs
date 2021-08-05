@@ -64,7 +64,12 @@ namespace ExpenseManagementApi.Controllers
         public async Task<IActionResult> Login([FromBody] UserForAuthenticationDto userForAuthentication)
         {
             var user = await _userManager.FindByNameAsync(userForAuthentication.Email);
-            var role = await _userManager.GetRolesAsync(user);
+            try
+            {
+                var role = await _userManager.GetRolesAsync(user);
+            
+
+
 
             if (user == null || !await _userManager.CheckPasswordAsync(user, userForAuthentication.Password))
                 return Unauthorized(new AuthResponseDto { ErrorMessage = "Invalid Authentication" });
@@ -79,8 +84,13 @@ namespace ExpenseManagementApi.Controllers
             var token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
 
             return Ok(new AuthResponseDto { IsAuthSuccessful = true, Token = token, Role = role[0] });
+            }
+            catch (Exception ex)
+            {
+                return Unauthorized();
+            }
         }
-        
+
         [HttpPost("logout")]
         public async Task<IActionResult> Logout()
         {

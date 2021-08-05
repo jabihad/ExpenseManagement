@@ -1,5 +1,10 @@
 using ExpenseManagement.Data.Entity;
 using ExpenseManagementApi.JwtFeatures;
+using ExpenseManagementApi.Repositories;
+using ExpenseManagementApi.Services.Admin.Implementation;
+using ExpenseManagementApi.Services.Admin.Interface;
+using ExpenseManagementApi.Services.ServiceExpense.Implementation;
+using ExpenseManagementApi.Services.ServiceExpense.Interface;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -60,6 +65,10 @@ namespace ExpenseManagementApi
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.GetSection("securityKey").Value))
                 };
             });
+
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped<IAdminService, AdminService>();
+            services.AddScoped<IExpenseService, ExpenseService>();
 
             services.AddScoped<JwtHandler>();
             services.AddHttpContextAccessor();

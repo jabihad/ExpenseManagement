@@ -1,6 +1,6 @@
 <header>
   <nav
-    class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3"
+    class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3"
   >
     <div class="container">
       <a class="navbar-brand" [routerLink]="['/']">ExpenseManagementApi</a>
@@ -19,23 +19,60 @@
         class="navbar-collapse collapse d-sm-inline-flex justify-content-end"
         [ngClass]="{ show: isExpanded }"
       >
-        <ul class="navbar-nav flex-grow">
+      <ul *ngIf='isUserAuthenticated && isAdmin' class="navbar-nav flex-grow">
+        <li class="nav-item" [routerLinkActive]="['link-active']">
+          <a class="nav-link text-white" [routerLink]="['/category/create']"
+            >Create Category</a
+          >
+        </li>
+        <li class="nav-item" [routerLinkActive]="['link-active']">
+          <a class="nav-link text-white" [routerLink]="['/category/list']"
+            >Category List</a
+          >
+        </li>
+      </ul>
+
+        <ul *ngIf='isUserAuthenticated && isCustomer' class="navbar-nav flex-grow">
           <li
             class="nav-item"
             [routerLinkActive]="['link-active']"
             [routerLinkActiveOptions]="{ exact: true }"
           >
-            <a class="nav-link text-dark" [routerLink]="['/']">Home</a>
+            <a class="nav-link text-white" [routerLink]="['/']">Home</a>
           </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/counter']"
+          <!-- <li class="nav-item" [routerLinkActive]="['link-active']">
+            <a class="nav-link text-white" [routerLink]="['/counter']"
               >Counter</a
             >
+          </li> -->
+          <li class="nav-item" [routerLinkActive]="['link-active']">
+            <a class="nav-link text-white" [routerLink]="['/expense/create']"
+              >Create Expense</a
+            >
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/fetch-data']"
-              >Fetch data</a
+            <a class="nav-link text-white" [routerLink]="['/expense/list']"
+              >Expense List</a
             >
+          </li>
+        </ul>
+
+        <ul *ngIf='!isUserAuthenticated' class="navbar-nav flex-grow">
+          <li class="nav-item" [routerLinkActive]="['link-active']">
+            <a class="nav-link text-white" [routerLink]="['/authentication/login']"
+              >Login</a
+            >
+          </li>
+          <li class="nav-item" [routerLinkActive]="['link-active']">
+            <a class="nav-link text-white" [routerLink]="['/authentication/registration']"
+              >Register</a
+            >
+          </li>
+        </ul>
+
+        <ul *ngIf='isUserAuthenticated' class="navbar-nav flex-grow">
+          <li class="nav-item">
+            <button class="btn btn-dark" (click)="logout()">Logout</button>
           </li>
         </ul>
       </div>

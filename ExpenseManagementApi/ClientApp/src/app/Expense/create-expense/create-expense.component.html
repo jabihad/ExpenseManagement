@@ -1,0 +1,18 @@
+<form [formGroup]="newExpenseForm" (ngSubmit)="createExpense(newExpenseForm.value)">
+
+    <div class="form-group">
+        <label>Item Name</label>
+        <input type="text" class="form-control" placeholder="Enter Item Name" formControlName="itemName">
+    </div>
+    <div class="form-group">
+        <label>Enter Amount</label>
+        <input type="text" class="form-control" placeholder="Enter Amount" formControlName="amount">
+    </div>
+    <div class="form-group">
+        <label>Cateogry</label>
+        <select formControlName="categoryId" class="form-control">
+            <option [value]="item.id" *ngFor="let item of categoryList">{{item.name}}</option>
+        </select>
+    </div>
+    <button class="btn btn-success" type="submit">Create Expense</button>
+</form>
