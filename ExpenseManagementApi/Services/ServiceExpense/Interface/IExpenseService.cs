@@ -14,5 +14,6 @@ namespace ExpenseManagementApi.Services.ServiceExpense.Interface
         Task<ExpenseModel> GetExpenseById(int id);
         Task<ExpenseModel> UpdateExpense(ExpenseModel expenseModel);
         Task<int> DeleteExpense(int id);
+        Task<Dictionary<string, Decimal>> CalculateMonthlyExpense();
     }
 }

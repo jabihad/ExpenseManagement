@@ -72,6 +72,35 @@ namespace ExpenseManagementApi.Services.ServiceExpense.Implementation
             
             return expenseModel;
         }
+        public async Task<Dictionary<string, Decimal>> CalculateMonthlyExpense()
+        {
+            var userId = _httpContextAccessor.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            Dictionary<string, decimal> dictMonthlySum = new Dictionary<string, decimal>();
+
+            var food = await _expense.FindAllAsync
+                (e => e.Category.Name == "Food" && e.UserId==userId && (e.ExpenseDate > DateTime.Now.AddMonths(-7)));
+            var foodSum = food.Select(c => c.Amount).Sum();
+
+            var shopping = await _expense.FindAllAsync
+                (e => e.Category.Name == "Shopping" && e.UserId == userId && (e.ExpenseDate > DateTime.Now.AddMonths(-7)));
+            var shoppingSum = shopping.Select(c => c.Amount).Sum();
+
+            var travel = await _expense.FindAllAsync
+                (e => e.Category.Name == "Travel" && e.UserId == userId && (e.ExpenseDate > DateTime.Now.AddMonths(-7)));
+            var travelSum = travel.Select(c => c.Amount).Sum();
+
+            var health = await _expense.FindAllAsync
+                (e => e.Category.Name == "Health" && e.UserId == userId && (e.ExpenseDate > DateTime.Now.AddMonths(-7)));
+            var healthSum = health.Select(c => c.Amount).Sum();
+
+            dictMonthlySum.Add("Food", foodSum);
+            dictMonthlySum.Add("Shopping", shoppingSum); 
+            dictMonthlySum.Add("Travel", travelSum); 
+            dictMonthlySum.Add("Health", healthSum);
+
+            return dictMonthlySum;
+        }
 
 
     }

@@ -27,7 +27,7 @@ namespace ExpenseManagementApi.Controllers
                 var res = await _expenseService.GetAllExpense();
                 return Ok(res);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return Ok(new { message = "Can't get All Expense" });
             }
@@ -42,9 +42,9 @@ namespace ExpenseManagementApi.Controllers
                 var result = await _expenseService.CreateExpense(expenseModel);
                 return Ok(result);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return Ok(new { message = "Failed to Create Expense"});
+                return Ok(new { message = "Failed to Create Expense" });
             }
         }
         [Authorize]
@@ -91,7 +91,19 @@ namespace ExpenseManagementApi.Controllers
                 return Ok(new { message = "Can't Delete Expense" });
             }
         }
-
-
+        [Authorize]
+        [HttpGet("CalculateMonthlyExpense")]
+        public async Task<IActionResult> CalculateMonthlyExpense()
+        {
+            try
+            {
+                var res = await _expenseService.CalculateMonthlyExpense();
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { message = "Can't Get Monthly Expense Report" });
+            }
+        }
     }
 }
