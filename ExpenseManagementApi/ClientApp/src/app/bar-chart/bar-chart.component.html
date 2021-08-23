@@ -1,0 +1,12 @@
+<!-- <h5 class="text-white">Monthly Cost Report</h5> -->
+<div class="chart" *ngIf="barChartData.length > 0">
+    <canvas baseChart
+    [datasets]="barChartData"
+    [labels]="barChartLabels"
+    [options]="barChartOptions"
+    [legend]="barChartLegend"
+    [chartType]="barChartType"
+    >
+
+    </canvas>
+</div>

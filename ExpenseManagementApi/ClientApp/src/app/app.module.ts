@@ -1,5 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+
+import { ChartsModule } from 'ng2-charts';
+
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
@@ -17,6 +20,9 @@ import { UpdateExpenseComponent } from './Expense/update-expense/update-expense.
 import { CreateCategoryComponent } from './Category/create-category/create-category.component';
 import { CategoryListComponent } from './Category/category-list/category-list.component';
 import { UpdateCategoryComponent } from './Category/update-category/update-category.component';
+import { BarChartComponent } from './bar-chart/bar-chart.component';
+import { ReportComponent } from './report/report.component';
+import { PieChartComponent } from './pie-chart/pie-chart.component';
 
 @NgModule({
   declarations: [
@@ -32,13 +38,17 @@ import { UpdateCategoryComponent } from './Category/update-category/update-categ
     UpdateExpenseComponent,
     CreateCategoryComponent,
     CategoryListComponent,
-    UpdateCategoryComponent
+    UpdateCategoryComponent,
+    BarChartComponent,
+    ReportComponent,
+    PieChartComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    ChartsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
@@ -49,11 +59,14 @@ import { UpdateCategoryComponent } from './Category/update-category/update-categ
       { path: 'expense/create', component: CreateExpenseComponent},
       { path: 'expense/list', component: ExpenseListComponent},
       { path: 'expense/update/:id', component: UpdateExpenseComponent},
+      { path: 'expense/monthly', component: ReportComponent},
+      { path: 'expense/weekly', component: PieChartComponent},
 
       { path: 'category/create', component: CreateCategoryComponent},
       { path: 'category/list', component: CategoryListComponent},
       { path: 'category/update/:id', component: UpdateCategoryComponent}
     ])
+    
   ],
   providers: [],
   bootstrap: [AppComponent]

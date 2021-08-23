@@ -28,6 +28,7 @@ export class UpdateCategoryComponent implements OnInit {
       },
       error =>{
         console.log(error);
+        console.log("dfg dfg")
       }
       )
   }

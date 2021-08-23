@@ -78,7 +78,16 @@ namespace ExpenseManagementApi.Services.ServiceExpense.Implementation
 
             Dictionary<string, decimal> dictMonthlySum = new Dictionary<string, decimal>();
 
-            var food = await _expense.FindAllAsync
+            var catList = await _category.GetAllAsync();
+            foreach(var cat in catList)
+            {
+                var expenseListByCategory = await _expense.FindAllAsync
+                    (e => e.Category.Name == cat.Name && e.UserId == userId && (e.ExpenseDate > DateTime.Now.AddDays(-30)));
+                var expenseTotalByCategory = expenseListByCategory.Select(c => c.Amount).Sum();
+                dictMonthlySum.Add(cat.Name, expenseTotalByCategory);
+            }
+
+            /*var food = await _expense.FindAllAsync
                 (e => e.Category.Name == "Food" && e.UserId==userId && (e.ExpenseDate > DateTime.Now.AddMonths(-7)));
             var foodSum = food.Select(c => c.Amount).Sum();
 
@@ -97,8 +106,24 @@ namespace ExpenseManagementApi.Services.ServiceExpense.Implementation
             dictMonthlySum.Add("Food", foodSum);
             dictMonthlySum.Add("Shopping", shoppingSum); 
             dictMonthlySum.Add("Travel", travelSum); 
-            dictMonthlySum.Add("Health", healthSum);
+            dictMonthlySum.Add("Health", healthSum);*/
 
+            return dictMonthlySum;
+        }
+        public async Task<Dictionary<string, Decimal>> CalculateWeeklyExpense()
+        {
+            var userId = _httpContextAccessor.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            Dictionary<string, decimal> dictMonthlySum = new Dictionary<string, decimal>();
+
+            var catList = await _category.GetAllAsync();
+            foreach (var cat in catList)
+            {
+                var expenseListByCategory = await _expense.FindAllAsync
+                    (e => e.Category.Name == cat.Name && e.UserId == userId && (e.ExpenseDate > DateTime.Now.AddDays(-7)));
+                var expenseTotalByCategory = expenseListByCategory.Select(c => c.Amount).Sum();
+                dictMonthlySum.Add(cat.Name, expenseTotalByCategory);
+            }
             return dictMonthlySum;
         }
 

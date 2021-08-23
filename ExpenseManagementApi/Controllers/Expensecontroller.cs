@@ -105,5 +105,19 @@ namespace ExpenseManagementApi.Controllers
                 return Ok(new { message = "Can't Get Monthly Expense Report" });
             }
         }
+        [Authorize]
+        [HttpGet("CalculateWeeklyExpense")]
+        public async Task<IActionResult> CalculateWeeklyExpense()
+        {
+            try
+            {
+                var res = await _expenseService.CalculateWeeklyExpense();
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { message = "Can't Get Weekly Expense Report" });
+            }
+        }
     }
 }
